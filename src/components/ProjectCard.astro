@@ -1,0 +1,254 @@
+---
+const { project } = Astro.props;
+
+const hasLink = !!project.link;
+let href = null;
+let isExternal = false;
+
+if (hasLink) {
+  href = project.link.url;
+  if (project.link.type === "external") {
+    isExternal = true;
+  }
+}
+---
+
+<article class="card">
+  <!-- MEDIA (optionally clickable) -->
+  {hasLink ? (
+    <a
+      class="mediaLink"
+      href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+    >
+      <div class="mediaStack">
+        <Fragment>
+          {project.primaryMedia && (
+            project.primaryMedia.type === "video" ? (
+              <video
+                class="media primary"
+                src={project.primaryMedia.src}
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="metadata"
+              />
+            ) : (
+              <img
+                class="media primary"
+                src={project.primaryMedia.src}
+                alt={project.title}
+                loading="lazy"
+              />
+            )
+          )}
+
+          {project.secondaryMedia && (
+            project.secondaryMedia.type === "video" ? (
+              <video
+                class="media secondary"
+                src={project.secondaryMedia.src}
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="metadata"
+              />
+            ) : (
+              <img
+                class="media secondary"
+                src={project.secondaryMedia.src}
+                alt=""
+                loading="lazy"
+              />
+            )
+          )}
+        </Fragment>
+      </div>
+    </a>
+  ) : (
+    <div class="mediaStack">
+      {project.primaryMedia && (
+        project.primaryMedia.type === "video" ? (
+          <video
+            class="media primary"
+            src={project.primaryMedia.src}
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+          />
+        ) : (
+          <img
+            class="media primary"
+            src={project.primaryMedia.src}
+            alt={project.title}
+            loading="lazy"
+          />
+        )
+      )}
+
+      {project.secondaryMedia && (
+        project.secondaryMedia.type === "video" ? (
+          <video
+            class="media secondary"
+            src={project.secondaryMedia.src}
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+          />
+        ) : (
+          <img
+            class="media secondary"
+            src={project.secondaryMedia.src}
+            alt=""
+            loading="lazy"
+          />
+        )
+      )}
+    </div>
+  )}
+
+  <!-- TEXT CONTENT (never clickable) -->
+  <div class="body">
+    <div class="titleRow">
+      <h2>{project.title}</h2>
+      {project.year && <span class="year">{project.year}</span>}
+    </div>
+
+    <div class="highlights">
+      {project.dataHighlights?.length && (
+        <section class="hl">
+          <h3>Data highlights</h3>
+          <ul>
+            {project.dataHighlights.map((t) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {project.visualHighlights?.length && (
+        <section class="hl">
+          <h3>Visual highlights</h3>
+          <ul>
+            {project.visualHighlights.map((t) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 0 12px #dcdcdc;
+    border-radius: 0;
+    overflow: hidden;
+    background: white;
+
+    padding: 20px;
+  }
+
+  /* ---- Media ---- */
+
+  .mediaLink {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .mediaStack {
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+    height: 480px;
+  }
+
+  .media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: #fff;
+
+    @media(max-width: 500px) {
+      object-fit: cover;
+      object-position: center;
+    }
+
+  }
+
+  .secondary {
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+
+  .mediaLink:hover .secondary {
+    opacity: 1;
+  }
+
+  .mediaLink:hover {
+    cursor: pointer;
+  }
+
+  /* ---- Body ---- */
+
+  .body {
+    margin-top: 27px;
+  }
+
+  .titleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .year {
+    opacity: 0.6;
+    font-size: 14px;
+    transform: translateY(-2px);
+  }
+
+  .highlights {
+    display: grid;
+    gap: 12px;
+  }
+
+  .hl {
+    font-size: 18px;
+  }
+
+  .hl h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #1f8764;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  li {
+    margin: 4px 0;
+    line-height: 1.35;
+  }
+</style>

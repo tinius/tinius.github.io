@@ -1,11 +1,117 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import { projects } from "../data/projects.js";
+import ProjectCard from "../components/ProjectCard.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title='Niko Kommenda - Portfolio'>
+    <main>
+      <header>
+        <h1>Niko Kommenda</h1>
+
+<div class="social">
+      <!-- Email -->
+      <a href="mailto:nkommenda@hotmail.com" aria-label="Email">
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+         <path d="M1.156 3h13.688L7.999 8.509zM8 9.784l7-5.634v8.842H1V4.15z" />
+        </svg>
+      </a>
+
+      <!-- LinkedIn -->
+      <a
+        href="https://linkedin.com/in/niko-kommenda-02036b278"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
+		  
+		  </svg>
+      </a>
+
+      <!-- Bluesky -->
+      <a
+        href="https://bsky.app/profile/bananafish.bsky.social"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Bluesky"
+      >
+        <svg viewBox="0 0 64 57" aria-hidden="true">
+          <path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+<div class="copy">
+        <p>Hi there! I'm a data and visual journalist with 9 years of experience working at the Washington Post, the Guardian and the Financial Times.</p>
+		<p>I'm passionate about finding patterns, outliers and unique narratives in data and presenting them through powerful interactive visuals.</p>
+		<p>On this page you'll find a selection of my favourite projects from the last couple of years.</p>
+      
+	  </div>
+	  </header>
+
+      <section class="list">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </section>
+    </main>
 </Layout>
+
+<style>
+  header {
+    margin-bottom: 22px;
+  }
+
+  h1 {
+    font-size: 34px;
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .sub {
+    margin: 0;
+    opacity: 0.75;
+    line-height: 1.45;
+  }
+
+  .list {
+    display: grid;
+    gap: 30px;
+  }
+
+  .copy {
+	margin: 40px 0;
+  }
+
+	.copy p {
+		font-size: 18px;
+		line-height: 1.35em;
+	}
+
+	.social {
+  display: flex;
+  gap: 8px;
+}
+
+.social a {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  color: #1f8764;
+  opacity: 0.7;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.social a:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.social svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+</style>
