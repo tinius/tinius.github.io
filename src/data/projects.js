@@ -46,7 +46,7 @@ export const projects = [
     title: "Extreme heat and the human limit",
      link: {
       type: "external", // "external" | "internal"
-      url: "https://www.washingtonpost.com/weather/interactive/2025/deadly-flooding-moisture-hotspots-maps",
+      url: "https://www.washingtonpost.com/climate-environment/interactive/2023/india-deadly-extreme-heat-poverty/",
     },
     year: 2023,
     primaryMedia: { type: "video", src: "/projects/climatemaladies1.mp4" },
@@ -65,10 +65,11 @@ export const projects = [
     title: "2020 U.S. elections",
      link: {
       type: "external", // "external" | "internal"
-      url: "https://www.washingtonpost.com/weather/interactive/2025/deadly-flooding-moisture-hotspots-maps",
+      url: "https://www.theguardian.com/us-news/ng-interactive/2020/dec/08/us-election-results-2020-joe-biden-defeats-donald-trump-to-win-presidency",
     },
     year: 2020,
-    primaryMedia: { type: "image", src: "/projects/uselex2020-1.png" },
+    primaryMedia: { type: "video", src: "/projects/uselex2020-2.mp4" },
+    secondaryMedia: { type: "image", src: "/projects/uselex2020-1.png" },
     
     dataHighlights: [
       "nodeJS/AWS data pipeline fetching data from Associated Press every 15s"
