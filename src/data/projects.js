@@ -31,7 +31,7 @@ export const projects = [
       url: "https://www.washingtonpost.com/weather/interactive/2025/deadly-flooding-moisture-hotspots-maps",
     },
     year: 2025,
-    primaryMedia: { type: "video", src: "/projects/floodsabove-cropped.mp4" },
+    primaryMedia: { type: "video", src: "/projects/floodsabove-padded-cropped.mp4" },
     secondaryMedia: { type: "image", src: "/projects/floodsabove2.png" },
     dataHighlights: [
       "Identified rainfall trends and extremes across 40 years of daily gridded data",
