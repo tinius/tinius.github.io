@@ -10,8 +10,8 @@ export const projects = [
     },
 
     // media: either image or video (mp4/webm)
-    primaryMedia: { type: "image", src: "/projects/trees1.png" },
-    secondaryMedia: { type: "image", src: "/projects/trees2.png" },
+    primaryMedia: { type: "image", src: "/projects/treecities3.png" },
+    secondaryMedia: { type: "image", src: "/projects/treecities4.png" },
 
     dataHighlights: [
       "Matched U.S. cities to peer cities based on geographical proximity, climate and population density",
@@ -31,11 +31,11 @@ export const projects = [
       url: "https://www.washingtonpost.com/weather/interactive/2025/deadly-flooding-moisture-hotspots-maps",
     },
     year: 2025,
-    primaryMedia: { type: "video", src: "/projects/floodsabove1.mp4" },
+    primaryMedia: { type: "video", src: "/projects/floodsabove-cropped.mp4" },
     secondaryMedia: { type: "image", src: "/projects/floodsabove2.png" },
     dataHighlights: [
       "Identified rainfall trends and extremes across 40 years of daily gridded data",
-      "Combined rainfall and atmospheric moisture records to identify 'compound events' with the strongest climate change link",
+      "Combined rainfall and atmospheric moisture records to identify ‘compound events’ with the strongest climate change link",
     ],
     visualHighlights: [
       "mapbox-gl-js globe with video layers, visualising moisture plumes in the atmosphere",
@@ -49,7 +49,7 @@ export const projects = [
       url: "https://www.washingtonpost.com/climate-environment/interactive/2023/india-deadly-extreme-heat-poverty/",
     },
     year: 2023,
-    primaryMedia: { type: "video", src: "/projects/climatemaladies1.mp4" },
+    primaryMedia: { type: "video", src: "/projects/climatemaladies-cropped.mp4" },
     secondaryMedia: { type: "image", src: "/projects/climatemaladies2.jpg" },
     dataHighlights: [
       "Collaborated with external scientists to model extreme heat days in unprecedented detail",
@@ -68,7 +68,7 @@ export const projects = [
       url: "https://www.theguardian.com/us-news/ng-interactive/2020/dec/08/us-election-results-2020-joe-biden-defeats-donald-trump-to-win-presidency",
     },
     year: 2020,
-    primaryMedia: { type: "video", src: "/projects/uselex2020-2.mp4" },
+    primaryMedia: { type: "video", src: "/projects/uselex2020-cropped.mp4" },
     secondaryMedia: { type: "image", src: "/projects/uselex2020-1.png" },
     
     dataHighlights: [
