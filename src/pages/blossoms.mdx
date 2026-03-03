@@ -1,0 +1,45 @@
+---
+layout: ../layouts/ArticleLayout.astro
+title: Cherry blossom forecast
+description: A probabilistic forecast for DC peak bloom.
+---
+
+import LatestDate from "../components/blossoms/LatestDate";
+import ForecastOverTime from "../components/blossoms/ForecastOverTime";
+import TemperatureChart from "../components/blossoms/TemperatureChart";
+import Byline from "../components/blossoms/Byline";
+
+
+# D.C. cherry blossom forecast for 2026
+
+<Byline client:load />
+
+<LatestDate client:load />
+
+## About this page
+
+Each spring, weather and stats nerds in Washington D.C. and beyond try to predict when the city's iconic cherry trees, found at the Tidal Basin, will reach peak bloom.
+
+I've long wanted to build a FiveThirtyEight-style statistical model and tracker page to tackle this challenge. My model, built in R, updates once a day to generate a best guess and reasonable uncertainty range for the bloom date.
+
+Here is how the forecast has evolved since I started running the model in late February: 
+
+<ForecastOverTime client:load />
+
+## Temperature forecast
+
+The chart below shows a small subset of the 10,000 temperature paths the model generates from AccuWeather's D.C. forecast and long-term averages.
+
+<TemperatureChart client:load />
+
+## How it works
+
+There are two challenges to forecasting peak bloom: Predicting what the weather will be and understanding how the cherry trees respond to specific temperatures.
+
+How plants respond to spring warming has been studied extensively in biology. Most models are built on the assumption that the plants start “accumulating heat” after winter dormancy and go into bloom once they've crossed a certain threshold for total heat exposure.
+
+My model counts heat units from February 1 and uses a variation of the Arrhenius equation which assumes that plant development speeds up non-linearly with increasing temperatures. This means a short but intense warm spell could drastically advance the timing of the bloom.
+
+The bigger source of uncertainty in the forecast is the weather. To update my bloom estimate daily, I scrape the latest forecast for D.C. from AccuWeather. I assume that this forecast is reliable for a few days before regressing towards the long-term average conditions for this time of year – the “climatological mean”.
+
+My model then generates 10,000 random temperature paths around this central trajectory. The paths naturally “branch out” more the further we look into the future. Finally I feed the temperature paths into my plant response model to get 10,000 guesses of the peak bloom date.

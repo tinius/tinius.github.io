@@ -1,0 +1,114 @@
+$blossom: #EF9798;
+
+main p {
+    font-size: 18px;
+    line-height: 1.35;
+}
+
+.fc-wrapper {
+    width: 100%;
+    position: relative;
+
+    & svg {
+        width: 100%;
+    }
+}
+
+.fc-median {
+    stroke: $blossom;
+    stroke-width: 2;
+    fill: none;
+}
+
+.fc-range {
+    fill: $blossom;
+    fill-opacity: 0.3;
+}
+
+.fc-svg {
+    overflow: visible;
+}
+
+.note {
+    color: #767676;
+    //font-style: italic;
+    font-size: 14px;
+}
+
+.xlabel {
+    text-anchor: middle;
+}
+
+.ylabel {
+    text-anchor: end;
+}
+
+.xtitle {
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+.ytitle {
+    font-weight: bold;
+}
+
+.large {
+
+    margin-top: 0;
+    font-size: 21px;
+    margin-bottom: 0;
+}
+
+h2 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.hist-svg {
+    width: 100%;
+    overflow: visible;
+}
+
+.hist-xlabel {
+    text-anchor: middle;
+}
+
+.hist-problabel {
+    font-weight: bold;
+}
+
+.fc-median-label {
+    font-weight: bold;
+}
+
+.temp-svg {
+    width: 100%;
+    overflow: visible;
+}
+
+.poss-label {
+    stroke: white;
+    stroke-width: 3;
+    fill: $blossom;
+    paint-order: stroke;
+   
+}
+
+.avg-label {
+    fill: #555;
+    font-weight: bold;
+    stroke-width: 3;
+    stroke: rgba(white, 0.6);
+    paint-order: stroke;
+    text-anchor: end;
+}
+
+.date {
+ 
+}
+
+.byline {
+    color: #767676;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
