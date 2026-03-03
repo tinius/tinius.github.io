@@ -30,7 +30,7 @@ const TemperatureChart = () => {
     const height = 400
     const padding = {
         top : 50,
-        right: 0,
+        right: 20,
         bottom: 30,
         left : 65
     }
@@ -62,8 +62,8 @@ const TemperatureChart = () => {
 
     const yGs = [ 20, 30, 40, 50, 60, 70, 80 ].map(deg => {
         return <g transform={`translate(0, ${ yScale(deg) })`}>
-            <line x1={padding.left - 5} x2={width} stroke='#dcdcdc'></line>
-            <text y={5} x={ padding.left - 10 }
+            <line x1={padding.left} x2={width - padding.right + 5} stroke='#dcdcdc'></line>
+            <text y={5} x={ padding.left - 5 }
             className='ylabel'>{deg}{ deg === 90 ? 'F' : '' }</text>
         </g>
     })

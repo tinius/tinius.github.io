@@ -26,7 +26,7 @@ const Forecast = ({}) => {
 
     const padding = {
         top: 40,
-        right : 0,
+        right : 20,
         bottom: 40,
         left : 60
     }
@@ -66,7 +66,7 @@ const Forecast = ({}) => {
 
     const yGs = [ 70, 80, 90, 100 ].map(doy => {
         return <g transform={`translate(0, ${ yScale(doy) })`}>
-            <line x1={padding.left} x2={width} stroke='#dcdcdc'></line>
+            <line x1={padding.left} x2={width - padding.right + 5} stroke='#dcdcdc'></line>
             <text x={padding.left - 5} y={5} className='ylabel'>{ formatDate(doyToDate(doy)) }</text>
         </g>
     })

@@ -12,7 +12,7 @@ const Byline = () => {
 
     return <div className='byline'>
         <span className='date'></span>
-        <p className='name'>By Niko Kommenda · Last updated { formatDateLong(parseUTC( latest.forecast_date )) }, 2026</p></div>
+        <p className='name'>By Niko Kommenda · Last updated <span style={{color: '#EF9798'}}>{ formatDateLong(parseUTC( latest.forecast_date )) }, 2026</span></p></div>
 
 }
 
