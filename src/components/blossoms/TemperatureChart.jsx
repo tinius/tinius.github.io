@@ -110,6 +110,16 @@ const TemperatureChart = () => {
 
     ) } className='obs-line'></path>
 
+    const observedLineWhite = <path d={ line(observedData
+
+        .map((row => {
+
+            return { ...row, date : parseUTC(row.date) }
+
+        }))
+
+    ) } className='obs-line obs-line--white'></path>
+
 
 
     const lines = data.map(arr => {
@@ -118,14 +128,14 @@ const TemperatureChart = () => {
 
             return { ...row, date : parseUTC(row.date) }
 
-        }))) } stroke='#EF9798' strokeWidth='2' strokeOpacity='0.15' fill='none'></path>
+        }))) } stroke='#999' strokeWidth='2' strokeOpacity='0.15' fill='none'></path>
 
     })
 
-    const climLine = <path d={ line(clim) } stroke='#666' strokeWidth={3}
-    strokeDasharray={'0, 5'} strokeLinecap='round'
+    const climLine = <path d={ line(clim) } stroke='#000' strokeWidth={2}
+    
     fill='none'></path> 
-    const climLineWhite = <path d={ line(clim) } stroke='white' strokeWidth={4}
+    const climLineWhite = <path d={ line(clim) } stroke='white' strokeWidth={5}
     fill='none'></path> 
 
     const possPath = data.slice()
@@ -152,10 +162,12 @@ const TemperatureChart = () => {
         {yGs}
         {xGs}
         {yTitle}
+        
         { lines }
-        { observedLine }
-        {/* { climLineWhite } */}
+        { climLineWhite }
         { climLine }
+        { observedLineWhite }
+        { observedLine }
         { obsLabel }
         { possLabel }
         { avgLabel }
