@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import probs from '../../data/bloom_probabilities.json'
-import data from '../../data/latest_summary.json'
 import * as d3sc from 'd3-scale'
 import * as d3a from 'd3-array'
 
@@ -18,7 +16,6 @@ const parseUTC = utcParse("%Y-%m-%d");
 const cScale = chroma.scale([ '#eaeaea', 'palevioletred' ])
     .domain([ 1, 9, 10 ])
 
-const latest = data.slice(-1)[0]
 
 const LatestDate = () => {
 
@@ -26,11 +23,32 @@ const LatestDate = () => {
     const [width, setWidth] = useState(300)
     const height = 320
 
+    const [ data, setData ] = useState(null)
+    const [ probs, setProbs ] = useState(null)
+
+    useEffect(() => {
+
+        fetch('https://raw.githubusercontent.com/tinius/peak-bloom-prediction/data/latest_summary.json')
+            .then( resp => resp.json() )
+            .then( data => setData(data) )
+
+        fetch('https://raw.githubusercontent.com/tinius/peak-bloom-prediction/data/bloom_probabilities.json')
+            .then( resp => resp.json() )
+            .then( probs => setProbs(probs) )
+
+    }, [])
+
     useEffect(() => {
         if(svgRef.current) {
             setWidth(svgRef.current.getBoundingClientRect().width)
         }
-    }, [])
+    }, [data, probs])
+
+    if(!(data && probs)) {
+        return <div></div>
+    }
+
+    const latest = data.slice(-1)[0]
 
     const padding = {
         top : 40,

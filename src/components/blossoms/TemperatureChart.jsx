@@ -4,7 +4,6 @@ import * as d3sh from 'd3-shape'
 import * as d3a from 'd3-array'
 import { utcParse } from "d3-time-format";
 
-import data from '../../data/temps.json'
 import climRaw from '../../data/climatology.json'
 
 
@@ -28,6 +27,9 @@ const TemperatureChart = () => {
 
     const [ width, setWidth ] = useState(300)
     const height = 400
+
+    const svgRef = useRef()
+
     const padding = {
         top : 50,
         right: 20,
@@ -35,7 +37,29 @@ const TemperatureChart = () => {
         left : 65
     }
 
-    const svgRef = useRef()
+
+    const [ data, setData ] = useState(null)
+
+    useEffect(() => {
+
+        fetch('https://raw.githubusercontent.com/tinius/peak-bloom-prediction/data/temps.json')
+            .then(resp => resp.json())
+            .then(data => setData(data))
+
+    }, [])
+    
+    useEffect(() => {
+
+        if(svgRef.current) {
+            setWidth(svgRef.current.getBoundingClientRect().width)
+        }
+
+    }, [data])
+
+    if(!data) {
+        return <div></div>
+    }
+
 
     const xScale = d3.scaleUtc()
         .domain([
@@ -52,13 +76,6 @@ const TemperatureChart = () => {
         .x(d => xScale(d.date))
         .y(d => yScale(d.tempF))
 
-    useEffect(() => {
-
-        if(svgRef.current) {
-            setWidth(svgRef.current.getBoundingClientRect().width)
-        }
-
-    }, [])
 
     const yGs = [ 20, 30, 40, 50, 60, 70, 80 ].map(deg => {
         return <g transform={`translate(0, ${ yScale(deg) })`}>
@@ -91,12 +108,19 @@ const TemperatureChart = () => {
 
     })
 
-    const climLine = <path d={ line(clim) } stroke='#555' strokeWidth={2}
+    const climLine = <path d={ line(clim) } stroke='#666' strokeWidth={2}
+    fill='none'></path> 
+    const climLineWhite = <path d={ line(clim) } stroke='white' strokeWidth={4}
     fill='none'></path> 
 
-    const possEntry = data[0][35]
+    const possPath = data.slice()
+        .sort((a, b) => {
+            return a[72].tempF - b[72].tempF
+        })[46]
 
-    const possLabel = <text x={xScale(parseUTC(possEntry.date))} y={ yScale(possEntry.tempF) - 10 }
+    const possEntry = possPath[72]
+
+    const possLabel = <text x={xScale(parseUTC(possEntry.date))} y={ yScale(possEntry.tempF) }
     className='poss-label'>Simulated 2026 paths</text>
 
     const avgLabel = <text x={xScale(parseUTC('2026-04-14'))} y={ yScale(55) + 28 }
@@ -111,6 +135,7 @@ const TemperatureChart = () => {
         {xGs}
         {yTitle}
         { lines }
+        { climLineWhite }
         { climLine }
         { possLabel }
         { avgLabel }

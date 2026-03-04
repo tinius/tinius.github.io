@@ -10,24 +10,45 @@ const d3 = Object.assign({}, d3a, d3sc, d3sh)
 
 const parseUTC = utcParse("%Y-%m-%d");
 
-import dataIn from '../../data/latest_summary.json'
+//import dataIn from '../../data/latest_summary.json'
 
-const data = dataIn.map(row => {
-    return { ...row, forecast_date : parseUTC(row.forecast_date) }
-})
 
 const Forecast = ({}) => {
 
-    
+    const [ dataIn, setDataIn ] = useState(null)
     const [ width, setWidth ] = useState(300)
     const height = 480
 
+    useEffect(() => {
+
+        fetch('https://raw.githubusercontent.com/tinius/peak-bloom-prediction/refs/heads/data/latest_summary.json')
+            .then(resp => resp.json())
+            .then( arr => setDataIn(arr) )
+
+    }, [])
+
+    useEffect(() => {
+
+        if(svgRef.current) {
+            setWidth(svgRef.current.getBoundingClientRect().width)
+        }
+
+    }, [dataIn])
+
     const svgRef = useRef()
+    
+    if(!dataIn) {
+        return <div></div>
+    }
+
+    const data = dataIn.map(row => {
+        return { ...row, forecast_date : parseUTC(row.forecast_date) }
+    })
 
     const padding = {
         top: 40,
         right : 20,
-        bottom: 40,
+        bottom: 45,
         left : 60
     }
 
@@ -73,7 +94,7 @@ const Forecast = ({}) => {
 
     const yTitle = <text x={0} y={22}
     className='ytitle'>↑ Predicted peak bloom</text>
-    const xTitle= <text x={(width/2)} y={ height - padding.bottom + 40 }
+    const xTitle= <text x={padding.left + (width - padding.left - padding.right)*0.45} y={ height - padding.bottom + 42 }
     className='xtitle'>Forecast issued →</text>
 
     const latest = data.slice(-1)[0]
@@ -81,14 +102,6 @@ const Forecast = ({}) => {
     className='fc-median-label'>{formatDate( doyToDate(latest.q50) )}</text>
 
 console.log(data)
-
-    useEffect(() => {
-
-        if(svgRef.current) {
-            setWidth(svgRef.current.getBoundingClientRect().width)
-        }
-
-    }, [])
 
     return <div className='fc-wrapper'>
         <svg ref={svgRef} width={width} height={height} className='fc-svg'
