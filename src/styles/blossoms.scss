@@ -96,12 +96,16 @@ h2 {
 }
 
 .avg-label {
-    fill: #666;
-    font-weight: bold;
+    fill: #444;
+    //font-weight: bold;
     stroke-width: 3;
     stroke: rgba(white, 0.6);
     paint-order: stroke;
     text-anchor: end;
+}
+
+.obs-label {
+    text-anchor: start;
 }
 
 .date {
@@ -117,4 +121,10 @@ h2 {
 .hist-svg, .fc-svg, .temp-svg {
     display: block;
     margin: 30px 0 45px 0;
+}
+
+.obs-line {
+    stroke: #000;
+    fill: none;
+    stroke-width: 2;
 }

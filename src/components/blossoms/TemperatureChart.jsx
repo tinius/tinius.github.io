@@ -98,6 +98,20 @@ const TemperatureChart = () => {
 
     })
 
+    const observedData = data[0].filter(row => row.observed)
+
+    const observedLine = <path d={ line(observedData
+
+        .map((row => {
+
+            return { ...row, date : parseUTC(row.date) }
+
+        }))
+
+    ) } className='obs-line'></path>
+
+
+
     const lines = data.map(arr => {
 
         return <path d={ line(arr.map((row => {
@@ -108,7 +122,8 @@ const TemperatureChart = () => {
 
     })
 
-    const climLine = <path d={ line(clim) } stroke='#666' strokeWidth={2}
+    const climLine = <path d={ line(clim) } stroke='#666' strokeWidth={3}
+    strokeDasharray={'0, 5'} strokeLinecap='round'
     fill='none'></path> 
     const climLineWhite = <path d={ line(clim) } stroke='white' strokeWidth={4}
     fill='none'></path> 
@@ -121,10 +136,13 @@ const TemperatureChart = () => {
     const possEntry = possPath[72]
 
     const possLabel = <text x={xScale(parseUTC(possEntry.date))} y={ yScale(possEntry.tempF) }
-    className='poss-label'>Simulated 2026 paths</text>
+    className='poss-label'>2026 forecast</text>
 
     const avgLabel = <text x={xScale(parseUTC('2026-04-14'))} y={ yScale(55) + 28 }
     className='avg-label'>1990-2025 avg.</text>
+
+    const obsLabel = <text x={xScale(parseUTC('2026-02-13'))} y={yScale(31) + 13}
+    className='obs-label'>2026 observed</text>
 
     const yTitle = <text x={0} y={30} className='ytitle'>
         ↑ Daily mean temperature (°F)
@@ -135,8 +153,10 @@ const TemperatureChart = () => {
         {xGs}
         {yTitle}
         { lines }
-        { climLineWhite }
+        { observedLine }
+        {/* { climLineWhite } */}
         { climLine }
+        { obsLabel }
         { possLabel }
         { avgLabel }
     </svg>

@@ -21,7 +21,7 @@ const Forecast = ({}) => {
 
     useEffect(() => {
 
-        fetch('https://raw.githubusercontent.com/tinius/peak-bloom-prediction/refs/heads/data/latest_summary.json')
+        fetch('https://raw.githubusercontent.com/tinius/peak-bloom-prediction/data/latest_summary.json')
             .then(resp => resp.json())
             .then( arr => setDataIn(arr) )
 
