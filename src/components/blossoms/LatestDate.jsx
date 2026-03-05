@@ -16,6 +16,90 @@ const parseUTC = utcParse("%Y-%m-%d");
 const cScale = chroma.scale([ '#eaeaea', 'palevioletred' ])
     .domain([ 1, 9, 10 ])
 
+const Comparison = ({ data }) => {
+
+    const [ width, setWidth ] = useState(300)
+    const svgRef = useRef()
+    const height = 152
+
+    const histData = [
+        { label : '2026 forecast', doy : data.q50, q10 : data.q10, q90 : data.q90,
+            textColor : '#e2777b',
+            color : '#EF9798', fw : '500'
+         },
+    {"label" : '2025', doy : 87, color : '#767676'},
+    {"label" : '2024', doy : 77, color : '#767676'},
+    {"label" :  '1990-2025 avg.', doy : 91, color : '#000'},
+    {"label" : '1921-2025 avg.', doy : 94, color : '#000'}
+    ]
+    
+    useEffect(() => {
+        if(svgRef.current) {
+        setWidth( svgRef.current.getBoundingClientRect().width )
+        }
+    }, [])
+
+
+    const paddingLeft = 120
+    const paddingTop = 46
+
+   const xScale = d3.scaleUtc()
+        .domain([
+        parseUTC("2026-03-15"),
+        parseUTC("2026-04-15")
+    ]).range([paddingLeft, width])
+
+
+    const gHeight = 24
+
+    const xTicks = ['2026-03-21', '2026-04-01', '2026-04-11'].map(str => {
+        return <g transform={`translate(${ xScale(parseUTC(str)) }, 20)`}>
+            <text textAnchor='middle'>{ formatDate(parseUTC(str)) }</text>
+        </g>
+    })
+
+    const xGs = d3.range(75, 105).map(doy => {
+        return <g transform={`translate(${xScale(doyToDate(doy))}, 0)`}>
+            <line y1={paddingTop - 18} y2={height} stroke={ [80, 91, 101].indexOf(doy) >= 0 ? '#aaa' : '#eaeaea' }></line>
+        </g>
+    })
+
+    const gs = histData.map((row, i) => {
+
+        return <g transform={`translate(0, ${gHeight*i + paddingTop})`}>
+            <text x={paddingLeft} textAnchor='end'
+            fill={row.textColor || row.color}
+            style={{ fontWeight : row.fw }}>{row.label}</text>
+            
+            <line y1={-4} y2={-4} x1={paddingLeft + 7} x2={width} stroke='#dcdcdc'
+            style={{ mixBlendMode : 'multiply' }}></line>
+
+             { row.q10 && <rect x={ xScale(doyToDate(row.q10)) }
+        fill='#EF9798'
+        fillOpacity={0.3}
+        height={18}
+        y={-14}
+        width={ xScale( doyToDate(row.q90)) - xScale(doyToDate(row.q10))} 
+        ></rect> }
+            
+            <circle r={9} cy={-5} cx={ xScale(doyToDate(row.doy)) }
+            fill={ row.invert ? 'none' : row.color } stroke={ row.invert ? row.color : 'none' }
+            strokeWidth={2}></circle>
+        
+       
+
+        </g>
+
+    })
+
+    return <svg width={width} height={height} 
+    ref={svgRef} className='recent-svg'>
+        {xTicks}
+        {xGs}
+        {gs}
+        </svg>
+
+}
 
 const LatestDate = () => {
 
@@ -137,9 +221,9 @@ const LatestDate = () => {
         {medianLabel}
     </svg>
 
-    {/* <p className='note'>Updated on { formatDate(parseUTC(latest.forecast_date)) }</p>
-    
-     */}
+    <p>Here is how the predicted range compares to previous bloom dates:</p>
+    <Comparison data={latest} />
+
     </div>
 }
 
