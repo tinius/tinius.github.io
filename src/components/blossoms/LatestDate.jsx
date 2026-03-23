@@ -7,7 +7,7 @@ import chroma from 'chroma-js'
 
 const d3 = Object.assign({}, d3a, d3sc)
 
-import { doyToDate, formatDate, formatDateLong } from './utils'
+import { doyToDate, doyToString, formatDate, formatDateLong } from './utils'
 
 import { utcParse } from "d3-time-format";
 
@@ -118,7 +118,22 @@ const LatestDate = () => {
 
         fetch('https://raw.githubusercontent.com/tinius/peak-bloom-prediction/data/bloom_probabilities.json')
             .then( resp => resp.json() )
-            .then( probs => setProbs(probs) )
+            .then( probs => {
+
+                const probsFilled = d3.range(80, 100).map(doy => {
+                    const out = {
+                        DATE : doyToString(doy),
+                    }
+
+                    const pEntry = probs.find(row2 => row2.DATE === out.DATE )
+
+                    return { ...out, prob_percent : pEntry ? pEntry.prob_percent : 0 }
+                })
+
+                console.log(probsFilled)
+
+                setProbs(probsFilled)
+            })
 
     }, [])
 
@@ -152,13 +167,9 @@ const LatestDate = () => {
         return formatDate(parseUTC(row.DATE)) === formatDate(doyToDate(latest.q50))
     })
 
-    const minIndex = probs.findIndex(row => {
-        return row.prob_percent >= 0.2
-    })
+    const minIndex = 0
 
-    const maxIndex = probs.length - probs.slice().reverse().findIndex(row => {
-        return row.prob_percent >= 0.2
-    })
+    const maxIndex = probs.length - 1
 
     const q10Index = probs.findIndex(row => {
         return formatDate(parseUTC(row.DATE)) === formatDate(doyToDate(latest.q10))
@@ -212,10 +223,13 @@ const LatestDate = () => {
         ↑ More likely
     </text>
 
+    const baseline = <line x1={0} x2={width} y1={height - 20} y2={height - 20} stroke='#767676' strokeWidth='1'></line>
+
     return <div><p className='large'>The current best estimate for peak bloom is <strong>{formatDateLong(doyToDate(latest.q50))}</strong>. The likely range spans from <strong>{formatDateLong(doyToDate(latest.q10))}</strong> to <strong>{formatDateLong(doyToDate(latest.q90))}</strong>.</p>
 
     <svg width={width} height={height} ref={svgRef} className='hist-svg'>
         {bars}
+        { baseline }
         {probLabel}
         {medianBar}
         {medianLabel}

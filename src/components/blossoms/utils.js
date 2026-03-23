@@ -3,6 +3,12 @@ function doyToDate(doy, year = 2026) {
   return new Date(Date.UTC(year, 0, doy));
 }
 
+function doyToString(doy, year = 2026) {
+  const date = new Date(year, 0); // Jan 1
+  date.setDate(doy);              // add day-of-year
+  return date.toISOString().slice(0, 10);
+}
+
 function formatDate(date) {
   return date.toLocaleDateString("en-US", {
     month: "short",
@@ -19,4 +25,4 @@ function formatDateLong(date) {
   })
 }
 
-export { doyToDate, formatDate, formatDateLong }
+export { doyToDate, doyToString, formatDate, formatDateLong }
