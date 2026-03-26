@@ -139,3 +139,18 @@ h2 {
 .recent-svg {
     width: 100%;
 }
+
+.update-div {
+    //border: 1.5px solid $blossom;
+    padding: 15px;
+
+    box-shadow: 0 0 5px $blossom;
+
+    padding-bottom: 5px;
+
+    margin-bottom: 40px;
+    
+    & h2 {
+        margin-top: 3px;
+    }
+}
